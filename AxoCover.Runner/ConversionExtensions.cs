@@ -4,7 +4,9 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 
 namespace AxoCover.Runner
 {
@@ -136,12 +138,22 @@ namespace AxoCover.Runner
         DisplayName = testResult.DisplayName,
         Duration = testResult.Duration,
         EndTime = testResult.EndTime,
+        Messages = testResult.Messages.Convert(),
         ErrorMessage = testResult.ErrorMessage,
         ErrorStackTrace = testResult.ErrorStackTrace,
         Outcome = testResult.Outcome.Convert(),
         StartTime = testResult.StartTime,
-        TestCase = testResult.TestCase.Convert()
+        TestCase = testResult.TestCase.Convert(),
       };
+    }
+    
+    public static IList<Common.Models.TestResultMessage> Convert(this Collection<TestResultMessage> messages)
+    {
+      return messages.Select(message => new Common.Models.TestResultMessage
+      {
+        Category = message.Category,
+        Text = message.Text
+      }).ToList();
     }
   }
 }

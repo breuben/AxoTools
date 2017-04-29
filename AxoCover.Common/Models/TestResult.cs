@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace AxoCover.Common.Models
@@ -32,5 +33,8 @@ namespace AxoCover.Common.Models
 
     [DataMember]
     public TestCase TestCase { get; set; }
+
+    [DataMember]
+    public IList<TestResultMessage> Messages { get; set; }
   }
 }
