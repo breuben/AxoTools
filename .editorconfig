@@ -1,0 +1,6 @@
+# Root editor configuration settings
+root = true
+
+[*.cs]
+indent_size = 2
+indent_style = space
