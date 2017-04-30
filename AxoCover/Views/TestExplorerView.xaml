@@ -258,7 +258,7 @@
                                         PlaceholderText="{x:Static res:Resources.TestSearchPlaceholder}"
                                         Text="{Binding SearchViewModel.FilterText, UpdateSourceTrigger=PropertyChanged}"
                                         TextChanged="OnSearchTextChanged"/>
-                    <views:TestDetailsView DockPanel.Dock="Bottom" SelectedItem="{Binding SelectedTestItem}"/>
+                    <views:TestDetailsView DockPanel.Dock="Right" SelectedItem="{Binding SelectedTestItem}"/>
                     <Grid>
                       <TreeView x:Name="_testTreeView" Background="Transparent" BorderThickness="0" 
                                 SelectedItemChanged="OnSelectedTestItemChanged"
