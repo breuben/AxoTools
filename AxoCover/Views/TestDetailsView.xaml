@@ -16,10 +16,10 @@
     <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
     <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
   </UserControl.Resources>
-  <StackPanel x:Name="_root"
+  <DockPanel x:Name="_root"
               Background="{DynamicResource {x:Static vsui:EnvironmentColors.CommandBarGradientBrushKey}}"
               Visibility="{Binding IsSelectionValid, Converter={StaticResource BooleanToVisibilityConverter}}">
-    <DockPanel Margin="3">
+    <DockPanel DockPanel.Dock="Top" Margin="3">
       <Image Stretch="None" DockPanel.Dock="Left" Margin="0,0,3,0" VerticalAlignment="Center"
              Source="{Binding SelectedItem.IconPath}"/>
       <StackPanel Orientation="Horizontal" DockPanel.Dock="Right"
@@ -40,13 +40,15 @@
                  Text="{Binding SelectedItem.CodeItem.DisplayName}"/>
     </DockPanel>
     <Border Visibility="{Binding IsMethod, Converter={StaticResource BooleanToVisibilityConverter}}">
-      <ScrollViewer MaxHeight="400" VerticalScrollBarVisibility="Auto"
+      <ScrollViewer VerticalScrollBarVisibility="Auto"
                     Visibility="{Binding SelectedItem.Result, Converter={StaticResource NullToVisibilityConverter}}">
-        <StackPanel Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}"
-                    DataContext="{Binding SelectedItem.Result}">
-          <TextBox Margin="3" TextWrapping="Wrap" IsReadOnly="True" Background="Transparent" BorderThickness="0"                  
+        <StackPanel DataContext="{Binding SelectedItem.Result}">
+          <TextBox Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}"
+                   Margin="3" TextWrapping="Wrap" IsReadOnly="True" Background="Transparent" BorderThickness="0"                  
                    Text="{Binding ErrorMessage}"/>
-          <ItemsControl Margin="3" ItemsSource="{Binding StackTrace}">
+
+          <ItemsControl Visibility="{Binding ErrorMessage, Converter={StaticResource NullToVisibilityConverter}}"
+                        Margin="3" ItemsSource="{Binding StackTrace}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
                 <controls:ActionButton HorizontalAlignment="Left"
@@ -59,6 +61,20 @@
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
+
+          <GroupBox Margin="3"
+                    Visibility="{Binding StdOut, Converter={StaticResource NullToVisibilityConverter}}">
+            <GroupBox.Header><Label>StdOut</Label></GroupBox.Header>
+            <TextBox Margin="3" TextWrapping="Wrap" IsReadOnly="True" Background="Transparent" BorderThickness="0"
+                     Text="{Binding StdOut}"/>
+          </GroupBox>
+
+          <GroupBox Margin="3"
+                    Visibility="{Binding StdErr, Converter={StaticResource NullToVisibilityConverter}}">
+            <GroupBox.Header><Label>StdErr</Label></GroupBox.Header>
+            <TextBox Margin="3" TextWrapping="Wrap" IsReadOnly="True" Background="Transparent" BorderThickness="0"
+                     Text="{Binding StdErr}"/>
+          </GroupBox>
         </StackPanel>
       </ScrollViewer>
     </Border>
@@ -136,5 +152,5 @@
         </StackPanel>
       </DockPanel>
     </UniformGrid>
-  </StackPanel>
+  </DockPanel>
 </views:View>

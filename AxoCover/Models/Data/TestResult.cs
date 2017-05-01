@@ -10,6 +10,10 @@ namespace AxoCover.Models.Data
 
     public TestState Outcome { get; set; }
 
+    public string StdOut { get; set; }
+
+    public string StdErr { get; set; }
+
     public string ErrorMessage { get; set; }
 
     public StackItem[] StackTrace { get; set; }

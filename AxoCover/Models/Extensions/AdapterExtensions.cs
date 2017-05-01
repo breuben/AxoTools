@@ -4,8 +4,10 @@ using AxoCover.Models.Data;
 using EnvDTE;
 using Microsoft.VisualStudio.Shell;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace AxoCover.Models.Extensions
@@ -113,9 +115,23 @@ namespace AxoCover.Models.Extensions
         Method = testMethod,
         Duration = testResult.Duration,
         Outcome = testResult.Outcome.ToTestState(),
+        StdOut = ConcatenateMessagesInCategory(testResult.Messages, "StdOutMsgs"),
+        StdErr = ConcatenateMessagesInCategory(testResult.Messages, "StdErrMsgs"),
         ErrorMessage = GetShortErrorMessage(testResult.ErrorMessage),
         StackTrace = StackItem.FromStackTrace(testResult.ErrorStackTrace)
       };
+    }
+
+    private static string ConcatenateMessagesInCategory(IList<Common.Models.TestResultMessage> messages, string categoryName)
+    {
+      var sb = new StringBuilder();
+
+      foreach (var message in messages.Where(m => m.Category == categoryName))
+      {
+        sb.Append(message.Text);
+      }
+
+      return sb.Length > 0 ? sb.ToString() : null;
     }
 
     private static readonly Regex _exceptionRegex = new Regex("^Test method [^ ]* threw exception:(?<exception>.*)$",
